@@ -1074,9 +1074,13 @@ func (tag StructTag) Lookup(key string) (value string, ok bool) {
 		}
 		name := string(tag[:i])
 		tag = tag[i+1:]
+		i++
+		for i < len(tag) && tag[i] == ' ' {
+			i++
+		}
 
 		// Scan quoted string to find value.
-		i = 1
+		// i = 1
 		for i < len(tag) && tag[i] != '"' {
 			if tag[i] == '\\' {
 				i++
