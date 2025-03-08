@@ -244,12 +244,18 @@ func validateStructTag(tag string) error {
 		if i+1 >= len(tag) || tag[i] != ':' {
 			return errTagSyntax
 		}
-		if tag[i+1] != '"' {
-			return errTagValueSyntax
-		}
+
 		key := tag[:i]
 		tag = tag[i+1:]
+		i = 0
+		for i < len(tag) && tag[i] == ' ' {
+			i++
+		}
+		tag = tag[i:]
 
+		if tag[i] != '"' {
+			return errTagValueSyntax
+		}
 		// Scan quoted string to find value.
 		i = 1
 		for i < len(tag) && tag[i] != '"' {

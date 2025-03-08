@@ -1069,18 +1069,19 @@ func (tag StructTag) Lookup(key string) (value string, ok bool) {
 		for i < len(tag) && tag[i] > ' ' && tag[i] != ':' && tag[i] != '"' && tag[i] != 0x7f {
 			i++
 		}
-		if i == 0 || i+1 >= len(tag) || tag[i] != ':' || tag[i+1] != '"' {
+
+		if i == 0 || i+1 >= len(tag) || tag[i] != ':' {
 			break
 		}
 		name := string(tag[:i])
 		tag = tag[i+1:]
-		i++
+		i = 0
 		for i < len(tag) && tag[i] == ' ' {
 			i++
 		}
-
+		tag = tag[i:]
 		// Scan quoted string to find value.
-		// i = 1
+		i = 1
 		for i < len(tag) && tag[i] != '"' {
 			if tag[i] == '\\' {
 				i++
